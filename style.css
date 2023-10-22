@@ -3,6 +3,11 @@ body {
 	margin: 0;
 }
 
+a:link {
+	text-decoration: none;
+	color: #000000;
+	}
+
 html,
 body,
 #map {
