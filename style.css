@@ -47,6 +47,8 @@ body,
     height: 4em;
     min-width: 300px;
     z-index: 1;
+	font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    color: #000000;
   }
   
   .logo {
