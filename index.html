@@ -20,6 +20,7 @@
         html, body, #map {
             height: 100%;
             width: 100%;
+			z-index: 0;
         }
 
 .info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { font: 10px/12px Arial, Helvetica, sans-serif; }
@@ -118,7 +119,7 @@ z-index: 1;
 						'#FFE5E5';
 };
 
-// Style for precinct map
+// Style for district map
 
 	function style(feature) {
 
@@ -180,7 +181,7 @@ function highlightFeature(e) {
 	info.update(layer.feature.properties);
 }
 
-// Display voting precincts
+// Display districts
 
 var geojson;
 
