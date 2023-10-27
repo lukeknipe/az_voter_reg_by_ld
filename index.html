@@ -48,7 +48,7 @@
 			+ '</b></center></h2>' + ((props.REP / (props.DEM + props.REP + props.LIB + props.NL + props.OTR))*100).toFixed(2) + '% Republican '
 			+ '<br>' + ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + '% Democrat '
 			+ '<br>' + ((props.OTR / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + '% Other '
-			+ '<h4>' + leanCalc(props.REP) + ' Republicans + 1'
+			+ '<h4>' + leanCalc(((props.REP / (props.DEM + props.REP + props.LIB + props.NL + props.OTR))*100).toFixed(2), ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2)) + ' Republicans + 1'
 			+ '<h4>' + props.REP + ' Republicans '
 			+ '<br>' + props.DEM + ' Democrats '
 		        + '<br>' + props.OTR + ' Others '
@@ -65,8 +65,11 @@
 
 	info.addTo(map);
 
-	function leanCalc(a) {
- 	 return a + 1;
+	function leanCalc(pctRep, pctDem) {
+		if (pctRep > pctDem) {
+ 	 	return pctRep - pctDem;
+		} else {
+		return pctDem - pctRep;
 	}
 
 // Get color for Dem precincts
