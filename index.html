@@ -67,9 +67,9 @@
 
 	function leanCalc(pctRep, pctDem) {
 		if (pctRep > pctDem) {
- 	 	return '${(pctRep - pctDem)} R ';
+ 	 	return ${(pctRep - pctDem)} + ' R';
 		} else {
-		return '${(pctRep - pctDem)} D ';
+		return ${(pctRep - pctDem)} + ' D';
 		}
 	}
 
