@@ -67,9 +67,9 @@
 
 	function leanCalc(pctRep, pctDem) {
 		if (pctRep > pctDem) {
- 	 	return (pctRep - pctDem) + ' R';
+ 	 	return (pctRep - pctDem).toFixed(2) + ' R';
 		} else {
-		return (pctRep - pctDem) + ' D';
+		return (pctDem - pctRep).toFixed(2) + ' D';
 		}
 	}
 
