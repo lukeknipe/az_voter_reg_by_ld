@@ -50,7 +50,7 @@
 			+ '<br>' + ((props.OTR / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + '% Other '
 			+ '<h4>' + props.REP + ' Republicans '
 			+ '<br>' + props.DEM + ' Democrats '
-		        + '<br>' + props.OTR + ' Others '
+			+ '<br>' + props.OTR + ' Others '
 			+ '<br>' + props.LIB + ' Libertarians '
 			+ '<br>' + props.NL + ' No Labels '
 			+ '<br>' + (props.DEM + props.REP + props.LIB + props.OTR + props.NL) + ' Total </h4>'
@@ -101,11 +101,9 @@
 const demEdge = (feature.properties.DEM / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
 	feature.properties.OTR)*100) - (feature.properties.REP / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
 		feature.properties.OTR)*100);
-		console.log(demEdge);
 const repEdge = (feature.properties.REP / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
 	feature.properties.OTR)*100) - (feature.properties.DEM / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
 		feature.properties.OTR)*100);
-		console.log(repEdge);
 
 if (demEdge > 0.001) {
 		return {
