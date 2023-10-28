@@ -67,9 +67,9 @@
 
 	function leanCalc(pctRep, pctDem) {
 		if (pctRep > pctDem) {
- 	 	return '<center><b>' + (pctRep - pctDem).toFixed(2) + '% GOP advantage</b></center>';
+ 	 	return '<center><b>Leans GOP +' + (pctRep - pctDem).toFixed(2) + '%</b></center>';
 		} else {
-		return '<center><b>' + (pctDem - pctRep).toFixed(2) + '% Dem advantage</b></center>';
+		return '<center><b>Leans Dem +' + (pctDem - pctRep).toFixed(2) + '%</b></center>';
 		}
 	}
 
