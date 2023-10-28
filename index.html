@@ -48,6 +48,7 @@
 			+ '</b></center></h2>' + ((props.REP / (props.DEM + props.REP + props.LIB + props.NL + props.OTR))*100).toFixed(2) + '% Republican '
 			+ '<br>' + ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + '% Democrat '
 			+ '<br>' + ((props.OTR / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + '% Other '
+			+ '<h4>' + leanCalc(((props.REP / (props.DEM + props.REP + props.LIB + props.NL + props.OTR))*100).toFixed(2), ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2))
 			+ '<h4>' + props.REP + ' Republicans '
 			+ '<br>' + props.DEM + ' Democrats '
 			+ '<br>' + props.OTR + ' Others '
@@ -63,6 +64,14 @@
 	};
 
 	info.addTo(map);
+
+	function leanCalc(pctRep, pctDem) {
+		if (pctRep > pctDem) {
+ 	 	return '<center>+ ' + (pctRep - pctDem).toFixed(2) + '% GOP advantage</center>';
+		} else {
+		return '<center>+ ' + (pctDem - pctRep).toFixed(2) + '% Dem advantage</center>';
+		}
+	}
 
 // Get color for Dem precincts
 
@@ -205,6 +214,7 @@ var geojson;
 	};
 
 	legend.addTo(map);
+
 
 
 </script>
