@@ -1,191 +1,233 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5JZGW8QG');</script>
-<!-- End Google Tag Manager -->
-    <title>Voter Registration in Arizona's Legislative Districts</title>
-    <meta property="og:url" content="https://lukeknipe.com/az_voter_reg_by_ld/" />
-    <meta property="og:title" content="Arizona's legislative districts, by the numbers" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:description" content="An interactive map of Arizona's 30 legislative districs that shows each district's elected representatives, voter registration stats, and how they lean politically." />
-    <meta property="og:type" content="map" />
-    <meta property="og:image" content="https://lukeknipe.com/az_voter_reg_by_ld/og.png" />
-    <meta property="og:image:alt" content="Arizona's legislative districts, by the numbers">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128173945-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
+<head>
 
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'UA-128173945-1');
-    </script>
-  </head>
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JZGW8QG"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <div id='map'></div>
-    <script type="text/javascript" src="az_voter_reg_by_ld.js"></script>
-    <script type="text/javascript">
-      // Display basemap
-      var map = L.map('map', {
-        zoomControl: false
-      }).setView([34, -111.7], 6.5);
-      new L.Control.Zoom({
-        position: 'bottomleft'
-      }).addTo(map);
-      L.tileLayer('https://api.mapbox.com/styles/v1/lukeknipe/cl5mwyk7000gy15qvyp46e1h2/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibHVrZWtuaXBlIiwiYSI6ImNsNW13ajU1azAwZmszZXBxeWV0ZWtlaTgifQ.llc0hOFsg4QzV7tiR1jLdg', {
-        maxZoom: 18,
-        attribution: 'Map data:  < a href = "https://redistricting-irc-az.hub.arcgis.com/pages/official-maps" > AIRC < /a>' +
-        ' | Voter data:  < a href = "https://azsos.gov/sites/default/files/state_voter_registration_2023_july.pdf" > Arizona Secretary of State Registration Report,
-        July 2023 < /a> | Imagery ©  < a href = "http://mapbox.com" > Mapbox < /a>',
-      }).addTo(map);
-      // Control that shows district info on hover
-      var info = L.control();
-      info.onAdd = function(map) {
-        this._div = L.DomUtil.create('div', 'info');
-        this.update();
-        return this._div;
-      };
-      info.update = function(props) {
-        this._div.innerHTML = (props ? ' < h2 > < b > < center > ' + props.LONGNAME + ' < /b> < /center> < /h2>' + ((props.REP /(props.DEM + props.REP + props.LIB + props.NL + props.OTR)) * 100).toFixed(2) + '% Republican ' + ' < br > ' + ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + ' % Democrat ' + ' < br > ' + ((props.OTR / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + ' % Other ' + ' < br > < br > ' + leanCalc(((props.REP / (props.DEM + props.REP + props.LIB + props.NL + props.OTR))*100).toFixed(2), ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2)) + ' < h4 > ' + props.REP + '
-      Republicans ' + ' < br > ' + props.DEM + '
-      Democrats ' + ' < br > ' + props.OTR + '
-      Others ' + ' < br > ' + props.LIB + '
-      Libertarians ' + ' < br > ' + props.NL + '
-      No Labels ' + ' < br > ' + (props.DEM + props.REP + props.LIB + props.OTR + props.NL) + '
-      Total < /h4>' + ' < center > < b > < u > Senator < /u> < /b> < br > ' + props.SEN + ' < br > < br > < b > < u > House Reps < /u> < /b> < br > ' + props.HSE + ' < /center>'	       : 'Hover over a < br > legislative district ');
-      };
-      info.addTo(map);
+	<title>Voter Registration in Arizona's Legislative Districts</title>
 
-      function leanCalc(pctRep, pctDem) {
-        if (pctRep > pctDem) {
-          return ' < span style = "color: red;" > < center > < b > Leans GOP + ' + (pctRep - pctDem).toFixed(2) + ' % < /b> < /center> < /span>';
-        } else {
-          return ' < span style = "color: blue;" > < center > < b > Leans Dem + ' + (pctDem - pctRep).toFixed(2) + ' % < /b> < /center> < /span>';
-        }
-      }
-      // Get color for Dem precincts
-      function getColorDem(e) {
-        return e > 32.13 ? '#08306B' : e > 28.56 ? '#0A549E' : e > 24.99 ? '#2172B6' : e > 21.42 ? '#3E8EC4' : e > 17.85 ? '#60A6D2' : e > 14.28 ? '#89BFDD' : e > 10.71 ? '#B0D2E8' : e > 7.14 ? '#CDE0F2' : e > 3.57 ? '#E2EEF9' : '#F7FBFF';
-      };
-      // Get color for Rep precincts
-      function getColorRep(e) {
-        return e > 32.13 ? '#FF0000' : e > 28.56 ? '#FF1919' : e > 24.99 ? '#FF3333' : e > 21.42 ? '#FF4C4C' : e > 17.85 ? '#FF6666' : e > 14.28 ? '#FF7F7F' : e > 10.71 ? '#FF9999' : e > 7.14 ? '#FFB2B2' : e > 3.57 ? '#FFCCCC' : '#FFE5E5';
-      };
-      // Style for district map
-      function style(feature) {
-        const demEdge = (feature.properties.DEM / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL + feature.properties.OTR) * 100) - (feature.properties.REP / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL + feature.properties.OTR) * 100);
-        const repEdge = (feature.properties.REP / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL + feature.properties.OTR) * 100) - (feature.properties.DEM / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL + feature.properties.OTR) * 100);
-        if (demEdge > 0.001) {
-          return {
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7,
-            fillColor: getColorDem(demEdge),
-          };
-        }
-        if (repEdge > 0.001) {
-          return {
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7,
-            fillColor: getColorRep(repEdge),
-          };
-        } else {
-          return {
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7,
-            fillColor: '#FFFFFF',
-          };
-        }
-      }
+	<meta property="og:url" content="https://lukeknipe.com/az_voter_reg_by_ld/" />
+	<meta property="og:title" content="Arizona's legislative districts, by the numbers" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:description" content="An interactive map of Arizona's 30 legislative districs that shows each district's elected representatives, voter registration stats, and how they lean politically." />
+	<meta property="og:type" content="map" />
+	<meta property="og:image" content="https://lukeknipe.com/az_voter_reg_by_ld/og.png" />
+	<meta property="og:image:alt" content="Arizona's legislative districts, by the numbers">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
-      function highlightFeature(e) {
-        var layer = e.target;
-        layer.setStyle({
-          weight: 5,
-          color: '#666',
-          dashArray: '',
-          fillOpacity: 0.7
-        });
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-          layer.bringToFront();
-        }
-        info.update(layer.feature.properties);
-      }
-      // Display districts
-      var geojson;
+</head>
+<body>
 
-      function resetHighlight(e) {
-        geojson.resetStyle(e.target);
-        info.update();
-      }
+<div id='map'></div>
 
-      function zoomToFeature(e) {
-        map.fitBounds(e.target.getBounds());
-      }
+<script type="text/javascript" src="az_voter_reg_by_ld.js"></script>
 
-      function onEachFeature(feature, layer) {
-        layer.on({
-          mouseover: highlightFeature,
-          mouseout: resetHighlight,
-          click: zoomToFeature
-        });
-      }
-      geojson = L.geoJson(voterRegistration, {
-        style: style,
-        onEachFeature: onEachFeature
-      }).addTo(map);
-      // Display legend
-      var legend = L.control({
-        position: 'bottomright'
-      });
-      legend.onAdd = function(map) {
-          var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 3.6, 7.1, 10.7, 14.3, 17.9, 21.4, 25, 28.6, 32.1],
-            labels = [' < b > Registration < br > advantage % < /b> < br > '],
-              from, to;
-              for (var i = 0; i < grades.length; i++) {
-                from = grades[i];
-                to = grades[i + 1];
-                labels.push(' < i style = "background:' + getColorDem(from + 0) + '" > < /i> < i style = "background:' + getColorRep(from + 0) + '" > < /i> ' +
-                  from + (to ? '&ndash;' + to : '+'));
-              }
-              div.innerHTML = labels.join(' < br > ');
-                return div;
-              };
-              legend.addTo(map);
-    </script>
-    <div class="header">
-      <span class="lk">
-        <a href="https://lukeknipe.com">LK</a>
-      </span>
-      <span class="path"> > <a href="https://lukeknipe.com/maps">Maps</a>
-      </span>
-    </div>
-  </body>
-</html>
+<script type="text/javascript">
+
+// Display basemap
+
+	var map = L.map('map', {zoomControl: false}).setView([34, -111.7], 6.5);
+	new L.Control.Zoom({ position: 'bottomleft' }).addTo(map);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/lukeknipe/cl5mwyk7000gy15qvyp46e1h2/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibHVrZWtuaXBlIiwiYSI6ImNsNW13ajU1azAwZmszZXBxeWV0ZWtlaTgifQ.llc0hOFsg4QzV7tiR1jLdg', {
+		maxZoom: 18,
+		attribution: 'Map data: <a href="https://redistricting-irc-az.hub.arcgis.com/pages/official-maps">AIRC</a>' +
+			' | Voter data: <a href="https://azsos.gov/sites/default/files/state_voter_registration_2023_july.pdf">Arizona Secretary of State Registration Report, July 2023</a> | Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	}).addTo(map);
+
+// Control that shows district info on hover
+
+	var info = L.control();
+
+	info.onAdd = function (map) {
+		this._div = L.DomUtil.create('div', 'info');
+		this.update();
+		return this._div;
+	};
+
+	info.update = function (props) {
+		this._div.innerHTML = (props ?
+			'<h2><b><center>' + props.LONGNAME
+			+ '</b></center></h2>' + ((props.REP / (props.DEM + props.REP + props.LIB + props.NL + props.OTR))*100).toFixed(2) + '% Republican '
+			+ '<br>' + ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + '% Democrat '
+			+ '<br>' + ((props.OTR / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2) + '% Other '
+			+ '<br><br>' + leanCalc(((props.REP / (props.DEM + props.REP + props.LIB + props.NL + props.OTR))*100).toFixed(2), ((props.DEM / (props.DEM + props.REP + props.LIB + props.OTR))*100).toFixed(2))
+			+ '<h4>' + props.REP + ' Republicans '
+			+ '<br>' + props.DEM + ' Democrats '
+			+ '<br>' + props.OTR + ' Others '
+			+ '<br>' + props.LIB + ' Libertarians '
+			+ '<br>' + props.NL + ' No Labels '
+			+ '<br>' + (props.DEM + props.REP + props.LIB + props.OTR + props.NL) + ' Total </h4>'
+			+ '<center><b><u>Senator</u></b><br>'
+			+ props.SEN
+			+ '<br><br><b><u>House Reps</u></b><br>'
+			+ props.HSE
+			+ '</center>'	       
+			: 'Hover over a<br>legislative district');
+	};
+
+	info.addTo(map);
+
+	function leanCalc(pctRep, pctDem) {
+		if (pctRep > pctDem) {
+ 	 	return '<span style="color: red;"><center><b>Leans GOP +' + (pctRep - pctDem).toFixed(2) + '%</b></center></span>';
+		} else {
+		return '<span style="color: blue;"><center><b>Leans Dem +' + (pctDem - pctRep).toFixed(2) + '%</b></center></span>';
+		}
+	}
+
+// Get color for Dem precincts
+
+		function getColorDem(e) {
+			return e > 32.13 ? '#08306B' :
+				e > 28.56  ? '#0A549E' :
+				e > 24.99  ? '#2172B6' :
+				e > 21.42  ? '#3E8EC4' :
+				e > 17.85  ? '#60A6D2' :
+				e > 14.28  ? '#89BFDD' :
+				e > 10.71  ? '#B0D2E8' :
+				e > 7.14  ? '#CDE0F2' :
+				e > 3.57  ? '#E2EEF9' :
+							'#F7FBFF';
+	};
+
+// Get color for Rep precincts
+
+	function getColorRep(e) {
+		return e > 32.13 ? '#FF0000' :
+		  e > 28.56  ? '#FF1919' :
+			e > 24.99  ? '#FF3333' :
+			e > 21.42  ? '#FF4C4C' :
+		  e > 17.85  ? '#FF6666' :
+			e > 14.28  ? '#FF7F7F' :
+			e > 10.71  ? '#FF9999' :
+			e > 7.14  ? '#FFB2B2' :
+			e > 3.57  ? '#FFCCCC' :
+						'#FFE5E5';
+};
+
+// Style for district map
+
+	function style(feature) {
+
+const demEdge = (feature.properties.DEM / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
+	feature.properties.OTR)*100) - (feature.properties.REP / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
+		feature.properties.OTR)*100);
+const repEdge = (feature.properties.REP / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
+	feature.properties.OTR)*100) - (feature.properties.DEM / (feature.properties.DEM + feature.properties.REP + feature.properties.LIB + feature.properties.NL +
+		feature.properties.OTR)*100);
+
+if (demEdge > 0.001) {
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			dashArray: '3',
+			fillOpacity: 0.7,
+			fillColor: getColorDem(demEdge),
+		};
+	}
+	if (repEdge > 0.001) {
+			return {
+				weight: 2,
+				opacity: 1,
+				color: 'white',
+				dashArray: '3',
+				fillOpacity: 0.7,
+				fillColor: getColorRep(repEdge),
+			};
+		}
+		else {
+				return {
+					weight: 2,
+					opacity: 1,
+					color: 'white',
+					dashArray: '3',
+					fillOpacity: 0.7,
+					fillColor: '#FFFFFF',
+				};
+			}
+}
+
+function highlightFeature(e) {
+	var layer = e.target;
+
+	layer.setStyle({
+		weight: 5,
+		color: '#666',
+		dashArray: '',
+		fillOpacity: 0.7
+	});
+
+	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+		layer.bringToFront();
+	}
+
+	info.update(layer.feature.properties);
+}
+
+// Display districts
+
+var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+	geojson = L.geoJson(voterRegistration, {
+		style: style,
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+// Display legend
+
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			grades = [0, 3.6, 7.1, 10.7, 14.3, 17.9, 21.4, 25, 28.6, 32.1],
+			labels = ['<b>Registration<br>advantage %</b><br>'],
+			from, to;
+
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+
+			labels.push(
+				'<i style="background:' + getColorDem(from + 0) + '"></i><i style="background:' + getColorRep(from + 0) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+
+	legend.addTo(map);
+
+
+
+</script>
+
+<div class="header">
+    <span class="lk"><a href="https://lukeknipe.com">LK</a></span><span class="path"> > <a href="https://lukeknipe.com/maps">Maps</a></span>
+</div>
+
+</body>
