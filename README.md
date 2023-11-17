@@ -3,3 +3,4 @@ This is a [Leaflet](https://leafletjs.com/) interactive choropleth map of Arizon
 
 
 On hover, the map displays voter registration statistics for the hovered district, along with some other information. (On mobile devices, where hovering isn't a thing, the map will instead do this on a click.)
+
