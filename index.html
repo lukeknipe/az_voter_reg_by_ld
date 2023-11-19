@@ -1,36 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128173945-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-128173945-1');
-</script>
-
-	
-	<title>Voter Registration in Arizona's Legislative Districts</title>
-
-	<meta property="og:url" content="https://lukeknipe.com/az_voter_reg_by_ld/" />
-	<meta property="og:title" content="Arizona's legislative districts, by the numbers" />
-	<meta property="og:locale" content="en_US" />
-	<meta property="og:description" content="An interactive map of Arizona's 30 legislative districs that shows each district's elected representatives, voter registration stats, and how they lean politically." />
-	<meta property="og:type" content="map" />
-	<meta property="og:image" content="https://lukeknipe.com/az_voter_reg_by_ld/og.png" />
-	<meta property="og:image:alt" content="Arizona's legislative districts, by the numbers">
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/x-icon" href="favicon.ico">
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-
-</head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DM5K75JW4Z"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-DM5K75JW4Z');
+    </script>
+    <title>Voter Registration in Arizona's Legislative Districts</title>
+    <meta name="description" content="About me, and this website">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <!-- itemprop tags for Google -->
+    <meta itemprop="name" content="Arizona's legislative districts, by the numbers">
+    <meta itemprop="description" content="An interactive map of Arizona's 30 legislative districs that shows each district's elected representatives, voter registration stats, and how they lean politically.">
+    <meta itemprop="image" content="https://lukeknipe.com/az_voter_reg_by_ld/og.png">
+    <!-- og tags for Facebook -->
+    <meta property="og:title" content="Arizona's legislative districts, by the numbers" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://lukeknipe.com/az_voter_reg_by_ld/">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="An interactive map of Arizona's 30 legislative districs that shows each district's elected representatives, voter registration stats, and how they lean politically.">
+    <meta property="og:image" content="https://lukeknipe.com/az_voter_reg_by_ld/og.png">
+    <meta property="og:image:alt" content="Arizona's legislative districts, by the numbers">
+    <!-- Twitter tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Arizona's legislative districts, by the numbers">
+    <meta name="twitter:description" content="An interactive map of Arizona's 30 legislative districs that shows each district's elected representatives, voter registration stats, and how they lean politically.">
+    <meta name="twitter:image" content="https://lukeknipe.com/az_voter_reg_by_ld/og.png">
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  </head>
 <body>
 
 <div id='map'></div>
